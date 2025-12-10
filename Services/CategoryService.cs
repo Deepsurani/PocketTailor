@@ -134,7 +134,48 @@ namespace WebApplication1.Services
 
         public string Update(CategoryModel model,int id=0)
         {
-            throw new NotImplementedException();
+            if (id==0)
+            {
+                return Messages.IdIsZero; 
+            }
+            if (model == null)
+            {
+                return Messages.ModelIsNull;
+            }
+            try
+            {
+                Dictionary<string, object> returnval = db.AddUpdateDeleteData("CategoryInsertUpdateSp", new Dictionary<string, object>()
+                {
+                    {"@Category",model.CateName},
+                    {"@Icon",model.Icon },
+                    {"@Status",model.IsActive}
+                }, new Dictionary<string, SqlDbType>()
+                {
+                    { "@Retval",SqlDbType.TinyInt }
+                });
+                if (returnval.ContainsKey("@Retval"))
+                {
+                    if (returnval["@Retval"].ToString() == "1")
+                    {
+                        return "success";
+                    }
+                    else
+                    {
+                        return "Dublicat";
+                    }
+                }
+                else
+                {
+                    return "error";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return "error";
+            }
+
         }
 
         public void Dispose()
