@@ -25,27 +25,40 @@ namespace WebApplication1.Admin
         }
         protected void BttnInsert_Click(object sender, EventArgs e)
         {
+            string message = "";
             string path = "";
-            string message = Db.Insert(new CategoryModel()
+            if (Request.QueryString["Edit"] != null)
             {
-                CateName = txtCategory.Text,
-                Icon = path,
-                IsActive = Convert.ToBoolean(Status.Text)
-            });
-            if (message == "error" || message == "Dublicat")
-            {
-                alert.InnerHtml = $@"<div class='alert alert-subtle-danger alert-dismissible fade show mt-3' role='alert'>
-         {HttpUtility.HtmlEncode(message == "error" ? Messages.Error : Messages.Duplicate)}
-         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-      </div>";
-
+                message = Db.Update(new CategoryModel
+                {
+                    CateName = txtCategory.Text,
+                    Icon = path,
+                    IsActive = Convert.ToBoolean(Status.Text)
+                }, Convert.ToInt32(Request.QueryString["Edit"]));
             }
-            else if (message == "success" || message == "Update")
+            else
+            {
+                message = Db.Insert(new CategoryModel()
+                {
+                    CateName = txtCategory.Text,
+                    Icon = path,
+                    IsActive = Convert.ToBoolean(Status.Text)
+                });
+            }
+
+            if (message == "success" || message == "Update")
             {
                 alert.InnerHtml = $@"<div class='alert alert-subtle-success alert-dismissible fade show mt-3' role='alert'>
                        {HttpUtility.HtmlEncode(message == "success" ? Messages.Insert : Messages.Update)}
                         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                      </div>";
+            }
+            else
+            {
+                alert.InnerHtml = $@"<div class='alert alert-subtle-danger alert-dismissible fade show mt-3' role='alert'>
+         {HttpUtility.HtmlEncode(message)}
+         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+      </div>";
             }
 
         }
