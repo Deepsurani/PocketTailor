@@ -157,7 +157,7 @@ namespace WebApplication1.Services
                 {
                     if (returnval["@Retval"].ToString() == "1")
                     {
-                        return "success";
+                        return "Update";
                     }
                     else
                     {
