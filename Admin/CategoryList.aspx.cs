@@ -22,5 +22,15 @@ namespace WebApplication1.Admin
             GridView1.DataSource = data;
             GridView1.DataBind();
         }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName=="Del")
+            {
+                string row=CatService.Delete(Convert.ToInt32(e.CommandArgument.ToString()));
+
+                Response.Write("<script>alert('" + row + "');");
+            }
+        }
     }
 }

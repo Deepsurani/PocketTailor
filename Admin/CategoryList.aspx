@@ -26,7 +26,7 @@
                         <div class="card-body" id="vehicleForm">
 
                             <div class="table-responsive">
-                                <asp:GridView ID="GridView1" CssClass="table table-responsive border-0" AutoGenerateColumns="false" runat="server">
+                                <asp:GridView ID="GridView1" CssClass="table table-responsive border-0" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false" runat="server">
                                     <Columns>
                                         <asp:TemplateField HeaderText="ID">
                                             <ItemTemplate>
