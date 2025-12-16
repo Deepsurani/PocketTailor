@@ -116,19 +116,19 @@ namespace WebApplication1.Services
                     }
                     else
                     {
-                        return "Dublicat";
+                        return Messages.Duplicate;
                     }
                 }
                 else
                 {
-                    return "error";
+                    return Messages.Error;
                 }
 
             }
             catch (Exception ex)
             {
 
-                return "error";
+                return  ex.Message;
             }
         }
 
