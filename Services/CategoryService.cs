@@ -84,7 +84,34 @@ namespace WebApplication1.Services
 
         public List<CategoryModel> GetByid(int id = 0)
         {
-            throw new NotImplementedException();
+            var ResponseData = db.GetData("SPCategorySelect", new Dictionary<string, object>()
+            {
+                {"@catid",id}
+            });
+
+            if (ResponseData.ContainsKey("Data"))
+            {
+                CategoryModel model = new CategoryModel();
+                DataTable dt = ResponseData["Data"] as DataTable;
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    model.CateID = Convert.ToInt32(dt.Rows[i]["CategoryId"]);
+                    model.CateName = dt.Rows[i]["Category"].ToString();
+                    model.Icon = dt.Rows[i]["Icon"].ToString();
+                    model.IsActive = Convert.ToBoolean(dt.Rows[i]["Status"].ToString());
+
+                }
+              return new List<CategoryModel>() { model };
+
+
+            }
+
+            else
+            {
+                return null;
+            }
+
         }
 
         public string Insert(CategoryModel model)

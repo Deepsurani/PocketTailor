@@ -16,11 +16,14 @@ namespace WebApplication1.Admin
         {
             CatService=new CategoryService();
         }
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            var data= CatService.GetAll();
+        void fillgrid() {
+            var data = CatService.GetAll();
             GridView1.DataSource = data;
             GridView1.DataBind();
+        }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            fillgrid();
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -29,7 +32,8 @@ namespace WebApplication1.Admin
             {
                 string row=CatService.Delete(Convert.ToInt32(e.CommandArgument.ToString()));
 
-                Response.Write("<script>alert('" + row + "');");
+                Response.Write("<script>alert('" + row + "');</script>");
+                fillgrid();
             }
         }
     }
